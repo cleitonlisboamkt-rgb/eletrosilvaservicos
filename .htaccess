@@ -1,0 +1,13 @@
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+AddDefaultCharset UTF-8
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.eletrosilvaservicos\.com$ [NC]
+  RewriteRule ^(.*)$ https://eletrosilvaservicos.com/$1 [L,R=301]
+</IfModule>
+

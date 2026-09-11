@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1424"/>
+      <stop offset="1" stop-color="#1A1D21"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <g fill="none" stroke="#0B3D91" stroke-width="1.2" opacity="0.45">
+    <rect x="80" y="70" width="1440" height="760" rx="8"/>
+    <rect x="120" y="110" width="420" height="680" rx="4"/>
+    <rect x="580" y="110" width="420" height="680" rx="4"/>
+    <rect x="1040" y="110" width="440" height="680" rx="4"/>
+  </g>
+  <g fill="#0B3D91" opacity="0.55">
+    <rect x="160" y="160" width="70" height="110" rx="3"/>
+    <rect x="250" y="160" width="70" height="110" rx="3"/>
+    <rect x="340" y="160" width="70" height="110" rx="3"/>
+    <rect x="160" y="300" width="70" height="110" rx="3"/>
+    <rect x="250" y="300" width="70" height="110" rx="3"/>
+    <rect x="340" y="300" width="70" height="110" rx="3"/>
+    <rect x="160" y="440" width="70" height="110" rx="3"/>
+    <rect x="250" y="440" width="70" height="110" rx="3"/>
+    <rect x="340" y="440" width="70" height="110" rx="3"/>
+    <rect x="160" y="580" width="250" height="160" rx="4"/>
+  </g>
+  <g fill="#2A3340">
+    <rect x="620" y="160" width="340" height="28" rx="2"/>
+    <rect x="620" y="210" width="340" height="28" rx="2"/>
+    <rect x="620" y="260" width="340" height="28" rx="2"/>
+    <rect x="620" y="310" width="340" height="28" rx="2"/>
+    <rect x="620" y="380" width="160" height="160" rx="4"/>
+    <rect x="800" y="380" width="160" height="160" rx="4"/>
+    <rect x="620" y="560" width="340" height="180" rx="4"/>
+  </g>
+  <g fill="none" stroke="#FFB300" stroke-width="1.5" opacity="0.35">
+    <path d="M1080 180h360M1080 180v80M1440 180v80"/>
+    <rect x="1080" y="260" width="360" height="200" rx="4"/>
+    <circle cx="1170" cy="360" r="36"/>
+    <circle cx="1260" cy="360" r="36"/>
+    <circle cx="1350" cy="360" r="36"/>
+    <rect x="1080" y="500" width="360" height="240" rx="4"/>
+  </g>
+  <g stroke="#4A90E2" stroke-width="1" opacity="0.25">
+    <path d="M0 300h1600M0 600h1600M400 0v900M800 0v900M1200 0v900"/>
+  </g>
+</svg>

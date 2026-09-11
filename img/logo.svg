@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 40" role="img" aria-label="ELETROSILVA">
+  <rect width="40" height="40" rx="8" fill="#0B3D91"/>
+  <path fill="#FFB300" d="M22.6 8 10 21.2h7.4L16.4 32 29.2 18.6h-7.5L22.6 8z"/>
+  <text x="52" y="26" fill="#1A1D21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.6">ELETROSILVA</text>
+</svg>
