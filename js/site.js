@@ -333,159 +333,75 @@
     });
   }
 
-  function maskPhone(value) {
-    var d = value.replace(/\D/g, "").slice(0, 11);
-    if (d.length === 0) return "";
-    if (d.length <= 2) return "(" + d;
-    if (d.length <= 7) return "(" + d.slice(0, 2) + ") " + d.slice(2);
-    return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
-  }
+  function bindCarousel() {
+    var root = $("[data-carousel]");
+    if (!root) return;
+    var track = $(".carousel-track", root);
+    var slides = $all(".carousel-slide", root);
+    var dots = $all(".carousel-dot", root);
+    var prev = $(".carousel-btn--prev", root);
+    var next = $(".carousel-btn--next", root);
+    if (!track || slides.length === 0) return;
+    var index = 0;
+    var timer;
+    var startX = 0;
 
-  function validPhone(value) {
-    var d = value.replace(/\D/g, "");
-    return d.length === 11 && d.slice(0, 2) === "21" && d.charAt(2) === "9";
-  }
-
-  function setInvalid(field, on) {
-    field.classList.toggle("is-invalid", on);
-    var input = $("input, select, textarea", field);
-    if (input) input.setAttribute("aria-invalid", on ? "true" : "false");
-  }
-
-  function bindForm() {
-    var form = $("#lead-form");
-    if (!form) return;
-    var started = false;
-    var t0 = Date.now();
-    var phone = $("#f-whatsapp");
-    if (phone) {
-      phone.addEventListener("input", function () {
-        var pos = phone.selectionStart;
-        var before = phone.value;
-        phone.value = maskPhone(phone.value);
-        if (document.activeElement === phone && pos === before.length) {
-          phone.setSelectionRange(phone.value.length, phone.value.length);
-        }
+    function go(n) {
+      index = (n + slides.length) % slides.length;
+      track.style.transform = "translateX(" + -index * 100 + "%)";
+      slides.forEach(function (slide, i) {
+        slide.setAttribute("aria-hidden", i === index ? "false" : "true");
+      });
+      dots.forEach(function (dot, i) {
+        dot.setAttribute("aria-current", i === index ? "true" : "false");
       });
     }
-    var utm = utmQuery();
-    UTM_KEYS.forEach(function (k) {
-      var hidden = document.getElementById("f-" + k);
-      if (hidden && utm[k]) hidden.value = utm[k];
-    });
-    form.addEventListener(
-      "focusin",
-      function () {
-        if (started) return;
-        started = true;
-        track("form_start", { page: location.pathname });
-      },
-      true
-    );
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var ok = true;
-      var nome = $("#f-nome");
-      var wa = $("#f-whatsapp");
-      var serv = $("#f-servico");
-      var perfil = $("#f-perfil");
-      var lgpd = $("#f-lgpd");
-      var hp = $("#f-website");
+    function play() {
+      stop();
+      timer = window.setInterval(function () {
+        go(index + 1);
+      }, 5500);
+    }
 
-      setInvalid(nome.closest(".field"), !nome.value.trim() || nome.value.trim().length < 2);
-      if (!nome.value.trim() || nome.value.trim().length < 2) ok = false;
+    function stop() {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    }
 
-      setInvalid(wa.closest(".field"), !validPhone(wa.value));
-      if (!validPhone(wa.value)) ok = false;
-
-      setInvalid(serv.closest(".field"), !serv.value);
-      if (!serv.value) ok = false;
-
-      setInvalid(perfil.closest(".field"), !perfil.value);
-      if (!perfil.value) ok = false;
-
-      setInvalid(lgpd.closest(".field"), !lgpd.checked);
-      if (!lgpd.checked) ok = false;
-
-      if (hp && hp.value) return;
-      if (Date.now() - t0 < 4000) {
-        ok = false;
-        alert("Aguarde um instante e envie novamente.");
-      }
-      if (!ok) return;
-
-      var utm = utmQuery();
-      var payload = {
-        nome: nome.value.trim(),
-        whatsapp: wa.value.trim(),
-        servico: serv.value,
-        perfil: perfil.value,
-        bairro: $("#f-bairro").value,
-        mensagem: $("#f-mensagem").value.trim(),
-        page: location.pathname,
-        utm: utm,
-      };
-
-      window.dataLayer.push({
-        event: "generate_lead",
-        service_type: payload.servico,
-        client_profile: payload.perfil,
+    if (prev)
+      prev.addEventListener("click", function () {
+        go(index - 1);
+        play();
       });
-      track("form_submit", { service_type: payload.servico, client_profile: payload.perfil });
-
-      var btn = $("button[type=submit]", form);
-      btn.classList.add("is-loading");
-      btn.textContent = "Enviando…";
-
-      function goThanks() {
-        window.location.href = (form.getAttribute("data-thanks") || "obrigado.html") + "?ok=1";
-      }
-
-      if (isReal(C.formEndpoint)) {
-        fetch(C.formEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(payload),
-        })
-          .then(function (res) {
-            if (!res.ok) throw new Error("fail");
-            goThanks();
-          })
-          .catch(function () {
-            mailtoFallback(payload);
-            goThanks();
-          });
-      } else {
-        mailtoFallback(payload);
-        goThanks();
-      }
+    if (next)
+      next.addEventListener("click", function () {
+        go(index + 1);
+        play();
+      });
+    dots.forEach(function (dot, i) {
+      dot.addEventListener("click", function () {
+        go(i);
+        play();
+      });
     });
-  }
-
-  function mailtoFallback(payload) {
-    try {
-      sessionStorage.setItem("es_lead", JSON.stringify(payload));
-    } catch (err) {}
-    if (!isReal(C.email)) return;
-    var lines = [
-      "Nome: " + payload.nome,
-      "WhatsApp: " + payload.whatsapp,
-      "Serviço: " + payload.servico,
-      "Perfil: " + payload.perfil,
-      "Bairro: " + payload.bairro,
-      "Mensagem: " + payload.mensagem,
-      "Página: " + payload.page,
-      "UTM: " + JSON.stringify(payload.utm),
-    ];
-    var href =
-      "mailto:" +
-      encodeURIComponent(C.email) +
-      "?subject=" +
-      encodeURIComponent("Orçamento ELETROSILVA") +
-      "&body=" +
-      encodeURIComponent(lines.join("\n"));
-    window.open(href, "_blank", "noopener");
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", play);
+    root.addEventListener(
+      "touchstart",
+      function (e) {
+        startX = e.changedTouches[0].clientX;
+        stop();
+      },
+      { passive: true }
+    );
+    root.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+      play();
+    });
+    go(0);
+    play();
   }
 
   function bindThanks() {
@@ -510,7 +426,7 @@
   bindScroll75();
   bindFloatWa();
   bindLightbox();
-  bindForm();
+  bindCarousel();
   bindThanks();
   viewService();
 })();

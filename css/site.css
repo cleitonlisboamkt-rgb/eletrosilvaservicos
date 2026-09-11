@@ -825,6 +825,120 @@ h3 {
   margin-top: 8px;
 }
 
+.carousel {
+  position: relative;
+  margin-top: 8px;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #12161c;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: transform 0.45s ease;
+  will-change: transform;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+}
+
+.carousel-slide figure {
+  margin: 0;
+}
+
+.carousel-slide img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.carousel-slide figcaption {
+  padding: 14px 18px 16px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 38%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.carousel-btn--prev {
+  left: 12px;
+}
+
+.carousel-btn--next {
+  right: 12px;
+}
+
+.carousel-btn:focus-visible {
+  outline: 2px solid var(--cta);
+  outline-offset: 2px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #c5ccd6;
+  cursor: pointer;
+}
+
+.carousel-dot[aria-current="true"] {
+  background: var(--blue);
+  width: 22px;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    transition: none;
+  }
+}
+
+.contact-card {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-card .cta-row {
+  justify-content: center;
+}
+
 .lightbox {
   position: fixed;
   inset: 0;
