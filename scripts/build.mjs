@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://eletrosilvaservicos.com";
+const ASSET_V = "20260916";
 
 const SERVICES = [
   {
@@ -283,7 +284,7 @@ function logoMark() {
   return `<svg viewBox="0 0 32 32" width="36" height="36" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#0B3D91"/><path fill="#FFB300" d="M18.2 6 8 17.2h6.1L13.2 26 24 14.6h-6.2L18.2 6z"/></svg>`;
 }
 
-function head({ title, description, path, extra = "", canonical }) {
+function head({ title, description, path, extra = "", canonical, robots = "index,follow" }) {
   const url = `${SITE}${path}`;
   const canon = canonical || url;
   return `<!DOCTYPE html>
@@ -294,8 +295,9 @@ function head({ title, description, path, extra = "", canonical }) {
   <title>${title}</title>
   <meta name="description" content="${description}">
   <link rel="canonical" href="${canon}">
-  <meta name="robots" content="index,follow">
+  <meta name="robots" content="${robots}">
   <meta name="theme-color" content="#0B3D91">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="ELETROSILVA">
@@ -307,16 +309,28 @@ function head({ title, description, path, extra = "", canonical }) {
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{--blue:#0B3D91;--ink:#1A1D21;--cta:#FFB300;--header-h:76px}
-    body{margin:0;font-family:Outfit,system-ui,sans-serif;color:var(--ink);background:#fff}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff}
     .header{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.96);border-bottom:1px solid #D8DEE6}
-    .hero{position:relative;background:#12161c;color:#fff}
+    .header-inner{display:flex;align-items:center;gap:16px;min-height:76px}
+    .wrap{width:min(calc(100% - 32px),1180px);margin-inline:auto}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+    .nav,.phone-link{display:none}
+    .menu-btn{width:48px;height:48px;border:1px solid #D8DEE6;background:#fff;border-radius:8px}
+    .hero{position:relative;background:#12161c;color:#fff;min-height:78vh;display:flex;align-items:center}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,26,.92),rgba(10,16,26,.45))}
+    .hero .wrap{position:relative;z-index:1;padding:48px 0 56px}
+    h1{font-size:clamp(1.75rem,4vw,2.75rem);line-height:1.15;margin:0 0 12px}
+    .lead{font-size:1.05rem}
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid transparent}
+    .btn--primary{background:#FFB300;color:#1A1D21}
+    .btn--ghost{color:#fff;border-color:rgba(255,255,255,.55)}
+    .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FFB300}
   </style>
-  <link rel="stylesheet" href="css/site.css?v=20260912">
+  <link rel="stylesheet" href="css/site.css?v=${ASSET_V}">
   ${extra}
 </head>`;
 }
@@ -339,7 +353,7 @@ function header(active) {
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 <header class="header">
   <div class="wrap header-inner">
-    <a class="logo" href="index.html" aria-label="ELETROSILVA, página inicial">
+    <a class="logo" href="index.html">
       ${logoMark()}
       <span><span class="logo-name">ELETROSILVA</span><span class="logo-sub">Serviços elétricos · RJ</span></span>
     </a>
@@ -370,14 +384,14 @@ function headerFixed(active) {
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 <header class="header">
   <div class="wrap header-inner">
-    <a class="logo" href="index.html" aria-label="ELETROSILVA, página inicial">
+    <a class="logo" href="index.html">
       ${logoMark()}
       <span><span class="logo-name">ELETROSILVA</span><span class="logo-sub">Serviços elétricos · RJ</span></span>
     </a>
     <nav class="nav" aria-label="Principal">${linksDesktop}</nav>
     <div class="header-actions">
       <a class="phone-link" data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a>
-      <a class="btn btn--primary btn--sm" data-wa="Olá! Vim pelo site e quero solicitar um orçamento." href="#contato" aria-label="Solicitar orçamento no WhatsApp">Orçamento no WhatsApp</a>
+      <a class="btn btn--primary btn--sm" data-wa="Olá! Vim pelo site e quero solicitar um orçamento." href="#contato">Orçamento no WhatsApp</a>
       <button class="menu-btn" type="button" aria-label="Abrir menu" aria-controls="menu-mobile" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -403,7 +417,6 @@ function footer() {
       <h3>Contato</h3>
       <ul>
         <li>Tel.: <a data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a></li>
-        <li><a data-href="instagram" href="#" hidden>Instagram</a></li>
       </ul>
     </div>
     <div>
@@ -428,15 +441,8 @@ function footer() {
   </div>
 </footer>
 <a class="wa-float" data-wa="Olá! Vim pelo site e preciso de um orçamento." href="#contato" aria-label="Abrir conversa no WhatsApp">${iconSvg("wa")}</a>
-<div class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lb-title">
-  <div class="lightbox-card">
-    <button type="button" class="lightbox-close" aria-label="Fechar">&times;</button>
-    <h3 class="lightbox-title" id="lb-title"></h3>
-    <p class="lightbox-body"></p>
-  </div>
-</div>
-<script src="js/config.js?v=20260912"></script>
-<script src="js/site.js?v=20260912" defer></script>
+<script src="js/config.js?v=${ASSET_V}" defer></script>
+<script src="js/site.js?v=${ASSET_V}" defer></script>
 `;
 }
 
@@ -458,32 +464,32 @@ function serviceOptions(selected = "") {
 
 const OBRAS = [
   {
-    src: "img/obras/painel-industrial.png",
+    src: "img/obras/painel-industrial.webp",
     alt: "Montagem de painel elétrico industrial com bornes e proteções identificadas",
     cap: "Montagem de painel elétrico",
   },
   {
-    src: "img/obras/quadro-residencial.png",
+    src: "img/obras/quadro-residencial.webp",
     alt: "Quadro de distribuição residencial com circuitos identificados",
     cap: "Quadro elétrico residencial",
   },
   {
-    src: "img/obras/quadro-predial.png",
+    src: "img/obras/quadro-predial.webp",
     alt: "Quadro de distribuição predial em casa de máquinas",
     cap: "Quadro elétrico predial",
   },
   {
-    src: "img/obras/padrao-entrada.png",
+    src: "img/obras/padrao-entrada.webp",
     alt: "Padrão de entrada da concessionária com medidor e proteção",
     cap: "Instalação de padrão elétrico",
   },
   {
-    src: "img/obras/motor-industrial.png",
+    src: "img/obras/motor-industrial.webp",
     alt: "Motor elétrico industrial instalado em base metálica",
     cap: "Instalação de motores",
   },
   {
-    src: "img/obras/automacao.png",
+    src: "img/obras/automacao.webp",
     alt: "Painel de automação com CLP e bornes identificados",
     cap: "Automação industrial",
   },
@@ -493,7 +499,7 @@ function obrasCarousel() {
   const slides = OBRAS.map(
     (o, i) => `<li class="carousel-slide"${i === 0 ? ' aria-hidden="false"' : ' aria-hidden="true"'}>
       <figure>
-        <img src="${o.src}" alt="${o.alt}" width="1200" height="900" loading="${i === 0 ? "eager" : "lazy"}" decoding="async">
+        <img src="${o.src}" alt="${o.alt}" width="960" height="720" loading="lazy" decoding="async">
         <figcaption>${o.cap}</figcaption>
       </figure>
     </li>`
@@ -509,7 +515,7 @@ function obrasCarousel() {
   </div>
   <button type="button" class="carousel-btn carousel-btn--prev" aria-label="Foto anterior">‹</button>
   <button type="button" class="carousel-btn carousel-btn--next" aria-label="Próxima foto">›</button>
-  <div class="carousel-dots" role="tablist" aria-label="Fotos das obras">${dots}</div>
+  <div class="carousel-dots" aria-label="Fotos das obras">${dots}</div>
 </div>`;
 }
 
@@ -594,15 +600,14 @@ function homePage() {
 ${headerFixed("home")}
 <main id="conteudo">
   <section class="hero" id="inicio">
-    <img class="hero-bg" src="img/hero-panel.svg" width="1600" height="900" alt="Ilustração técnica de painel elétrico industrial montado pela ELETROSILVA no Rio de Janeiro" fetchpriority="high" decoding="async">
     <div class="hero-overlay"></div>
     <div class="wrap">
       <p class="eyebrow">Eletricista no município do Rio de Janeiro</p>
       <h1 data-dynamic-h1>Instalação e manutenção elétrica no Rio de Janeiro: residencial, predial e industrial</h1>
       <p class="lead">Equipe própria, ART e laudo técnico. Orçamento em até 24 horas úteis.</p>
       <div class="cta-row">
-        <a class="btn btn--primary" data-wa="Olá! Vim pelo site e preciso de orçamento para serviço elétrico no Rio de Janeiro." href="#contato" aria-label="Solicitar orçamento no WhatsApp">Solicitar orçamento no WhatsApp</a>
-        <a class="btn btn--ghost" data-href="phone" href="#contato" aria-label="Ligar agora para a ELETROSILVA">Ligar agora</a>
+        <a class="btn btn--primary" data-wa="Olá! Vim pelo site e preciso de orçamento para serviço elétrico no Rio de Janeiro." href="#contato">Solicitar orçamento no WhatsApp</a>
+        <a class="btn btn--ghost" data-href="phone" href="#contato">Ligar agora</a>
       </div>
       <div class="badges">
         <span class="badge">${iconSvg("check")} Emissão de ART</span>
@@ -739,8 +744,8 @@ ${headerFixed("home")}
       <div class="callout">
         <strong>Polos industriais da capital.</strong> Atendimento industrial em Santa Cruz, Campo Grande, Pavuna, Benfica, Caju e Zona Portuária. demanda típica de painel elétrico, motores e automação industrial no município do Rio.
       </div>
-      <div class="map-wrap">
-        <iframe title="Mapa do município do Rio de Janeiro. área de atendimento ELETROSILVA" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Rio%20de%20Janeiro%2C%20RJ%2C%20Brasil&z=11&output=embed"></iframe>
+      <div class="map-wrap" id="mapa">
+        <button type="button" class="map-load" data-map-load data-map-src="https://maps.google.com/maps?q=Rio%20de%20Janeiro%2C%20RJ%2C%20Brasil&z=11&output=embed">Carregar mapa do Rio de Janeiro</button>
       </div>
     </div>
   </section>
@@ -761,8 +766,8 @@ ${headerFixed("home")}
         <h2>Solicite proposta no WhatsApp</h2>
         <p class="lead">Sem formulário. Fale no WhatsApp com o serviço e o bairro. Retorno em até 24h úteis. Só município do Rio.</p>
         <div class="cta-row">
-          <a class="btn btn--primary" data-wa="Olá! Vim pelo site e quero um orçamento de serviço elétrico no Rio de Janeiro." href="#contato" aria-label="Falar no WhatsApp para orçamento">Falar no WhatsApp</a>
-          <a class="btn btn--outline" data-href="phone" href="tel:+5521992779858" aria-label="Ligar para a ELETROSILVA">(21) 99277-9858</a>
+          <a class="btn btn--primary" data-wa="Olá! Vim pelo site e quero um orçamento de serviço elétrico no Rio de Janeiro." href="#contato">Falar no WhatsApp</a>
+          <a class="btn btn--outline" data-href="phone" href="tel:+5521992779858">(21) 99277-9858</a>
         </div>
       </div>
     </div>
@@ -1234,8 +1239,8 @@ ${headerFixed("servicos")}
       <h1>${s.h1}</h1>
       <p>${s.benefit} Equipe própria, ART quando o serviço exige, atendimento só no município do Rio de Janeiro.</p>
       <div class="cta-row">
-        <a class="btn btn--primary" data-wa="${s.wa}" href="#contato" aria-label="Orçamento no WhatsApp para ${s.short}">Solicitar orçamento no WhatsApp</a>
-        <a class="btn btn--ghost" data-href="phone" href="#contato" aria-label="Ligar agora">Ligar agora</a>
+        <a class="btn btn--primary" data-wa="${s.wa}" href="#contato">Solicitar orçamento no WhatsApp</a>
+        <a class="btn btn--ghost" data-href="phone" href="#contato">Ligar agora</a>
       </div>
     </div>
   </section>
@@ -1259,7 +1264,7 @@ ${headerFixed("servicos")}
         <div class="card" id="contato">
           <h3>Orçamento deste serviço</h3>
           <p class="muted">Retorno em até 24h úteis. Só município do Rio.</p>
-          <p><a class="btn btn--primary" data-wa="${s.wa}" href="#contato" aria-label="WhatsApp para ${s.short}">WhatsApp</a></p>
+          <p><a class="btn btn--primary" data-wa="${s.wa}" href="#contato">WhatsApp</a></p>
           <p class="muted"><a data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a></p>
           <h3 style="margin-top:24px">Outros serviços</h3>
           <ul>${related}</ul>
@@ -1277,7 +1282,8 @@ function obrigado() {
     title: "Pedido recebido | ELETROSILVA",
     description: "Recebemos seu pedido de orçamento. A ELETROSILVA retorna em até 24h úteis.",
     path: "/obrigado.html",
-    extra: `<meta name="robots" content="noindex">`,
+    extra: "",
+    robots: "noindex",
   })}
 <body data-page="obrigado">
 ${headerFixed("contato")}
@@ -1287,7 +1293,7 @@ ${headerFixed("contato")}
       <h1>Pedido recebido</h1>
       <p>Obrigado. Vamos analisar o serviço e o bairro e retornar em até 24h úteis. Se o caso for emergência de linha parada ou risco, use o WhatsApp e escreva “urgência”.</p>
       <div class="cta-row" style="justify-content:center">
-        <a class="btn btn--primary" data-wa="Olá! Vim pelo site e gostaria de adiantar o orçamento pelo WhatsApp." href="index.html" aria-label="Continuar no WhatsApp">Abrir WhatsApp</a>
+        <a class="btn btn--primary" data-wa="Olá! Vim pelo site e gostaria de adiantar o orçamento pelo WhatsApp." href="index.html">Abrir WhatsApp</a>
         <a class="btn btn--outline" href="index.html">Voltar ao início</a>
       </div>
     </div>
@@ -1336,7 +1342,8 @@ function notFound() {
     title: "Página não encontrada | ELETROSILVA",
     description: "A página não existe. Volte à ELETROSILVA. eletricista no Rio de Janeiro.",
     path: "/404.html",
-    extra: `<meta name="robots" content="noindex">`,
+    extra: "",
+    robots: "noindex",
   })}
 <body>
 ${headerFixed("home")}
@@ -1354,7 +1361,7 @@ ${footer()}
 }
 
 function sitemap() {
-  const urls = ["/", "/obrigado.html", "/privacidade.html", ...SERVICES.map((s) => `/${s.slug}.html`)];
+  const urls = ["/", "/privacidade.html", ...SERVICES.map((s) => `/${s.slug}.html`)];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls

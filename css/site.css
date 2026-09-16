@@ -4,7 +4,7 @@
   --blue-deep: #071f4a;
   --ink: #1a1d21;
   --ink-2: #2c3238;
-  --muted: #5c6570;
+  --muted: #4a545e;
   --line: #d8dee6;
   --bg: #f4f6f8;
   --white: #fff;
@@ -17,14 +17,16 @@
   --shadow: 0 1px 2px rgba(26, 29, 33, 0.06), 0 10px 28px rgba(26, 29, 33, 0.07);
   --header-h: 76px;
   --max: 1180px;
-  --font: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --blue: #8ab4ff;
+    --blue-hover: #a8c7ff;
     --ink: #e8eaed;
     --ink-2: #c5cad1;
-    --muted: #9aa3ad;
+    --muted: #b7c0c9;
     --line: #2c3238;
     --bg: #121416;
     --white: #1a1d21;
@@ -149,7 +151,7 @@ a:hover {
 
 .eyebrow {
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -296,7 +298,7 @@ h3 {
 
 .logo-sub {
   display: block;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -350,8 +352,8 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--line);
   background: var(--white);
   border-radius: 8px;
@@ -366,9 +368,9 @@ h3 {
 
 @media (max-width: 399px) {
   .header .btn--sm {
-    font-size: 0.78rem;
-    padding: 0 10px;
-    min-height: 40px;
+    font-size: 0.85rem;
+    padding: 0 12px;
+    min-height: 48px;
   }
   .logo-sub {
     display: none;
@@ -483,7 +485,7 @@ h3 {
 }
 
 .btn--sm {
-  min-height: 40px;
+  min-height: 48px;
   padding: 0 14px;
   font-size: 0.88rem;
 }
@@ -508,16 +510,11 @@ h3 {
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #12161c;
+  background: #12161c url("../img/hero-panel.svg") center / cover no-repeat;
 }
 
 .hero-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.55;
+  display: none;
 }
 
 .hero-overlay {
@@ -844,7 +841,7 @@ h3 {
   padding: 0;
   list-style: none;
   transition: transform 0.45s ease;
-  will-change: transform;
+  will-change: auto;
 }
 
 .carousel-slide {
@@ -875,8 +872,8 @@ h3 {
   position: absolute;
   top: 38%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
@@ -903,21 +900,33 @@ h3 {
 .carousel-dots {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   margin-top: 14px;
 }
 
 .carousel-dot {
-  width: 10px;
-  height: 10px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: #c5ccd6;
+  background: transparent;
   cursor: pointer;
+  position: relative;
 }
 
-.carousel-dot[aria-current="true"] {
+.carousel-dot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c5ccd6;
+  transform: translate(-50%, -50%);
+}
+
+.carousel-dot[aria-current="true"]::after {
   background: var(--blue);
   width: 22px;
   border-radius: 999px;
@@ -999,7 +1008,7 @@ h3 {
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--line);
-  height: 320px;
+  min-height: 320px;
   background: var(--bg);
 }
 
@@ -1007,6 +1016,24 @@ h3 {
   width: 100%;
   height: 320px;
   border: 0;
+}
+
+.map-load {
+  width: 100%;
+  min-height: 320px;
+  border: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 24px;
+}
+
+.map-load:focus-visible,
+.carousel-dot:focus-visible {
+  outline: 2px solid var(--cta);
+  outline-offset: 2px;
 }
 
 .callout {
@@ -1316,8 +1343,6 @@ h3 {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(12px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 

@@ -305,31 +305,17 @@
     );
   }
 
-  function bindLightbox() {
-    var box = $(".lightbox");
-    if (!box) return;
-    var title = $(".lightbox-title", box);
-    var body = $(".lightbox-body", box);
-    var close = $(".lightbox-close", box);
-    function hide() {
-      box.classList.remove("is-open");
-      box.setAttribute("aria-hidden", "true");
-    }
-    $all("[data-lightbox]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        title.textContent = btn.getAttribute("data-title") || "Obra";
-        body.textContent = btn.getAttribute("data-caption") || "";
-        box.classList.add("is-open");
-        box.setAttribute("aria-hidden", "false");
-        close.focus();
-      });
-    });
-    close.addEventListener("click", hide);
-    box.addEventListener("click", function (e) {
-      if (e.target === box) hide();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") hide();
+  function bindMap() {
+    var btn = $("[data-map-load]");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var wrap = btn.parentNode;
+      var iframe = document.createElement("iframe");
+      iframe.title = "Mapa do município do Rio de Janeiro, área de atendimento ELETROSILVA";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.src = btn.getAttribute("data-map-src");
+      wrap.replaceChildren(iframe);
     });
   }
 
@@ -401,7 +387,7 @@
       play();
     });
     go(0);
-    play();
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) play();
   }
 
   function bindThanks() {
@@ -425,7 +411,7 @@
   bindReveal();
   bindScroll75();
   bindFloatWa();
-  bindLightbox();
+  bindMap();
   bindCarousel();
   bindThanks();
   viewService();
