@@ -189,6 +189,8 @@
     if (!h1) return;
     var kw = new URLSearchParams(window.location.search).get("kw");
     if (!kw) return;
+    // Allowlist rígida — anti-injection / anti-IDOR de conteúdo dinâmico
+    if (kw.length > 80 || /[<>\"'`]/.test(kw)) return;
     var mapped = KW_MAP[norm(kw)];
     if (mapped) h1.textContent = mapped;
   }
@@ -220,15 +222,29 @@
   }
 
   function bindClicks() {
+    var lastWa = 0;
+    var lastTel = 0;
+    var cooldownMs = 4000;
     document.addEventListener("click", function (e) {
       var a = e.target.closest("a");
       if (!a) return;
       var href = a.getAttribute("href") || "";
+      var now = Date.now();
       if (href.indexOf("wa.me") !== -1 || a.hasAttribute("data-wa")) {
+        if (now - lastWa < cooldownMs) {
+          e.preventDefault();
+          return;
+        }
+        lastWa = now;
         track("click_whatsapp", { page: location.pathname });
         fireAdsConversion();
       }
       if (href.indexOf("tel:") === 0) {
+        if (now - lastTel < cooldownMs) {
+          e.preventDefault();
+          return;
+        }
+        lastTel = now;
         track("click_phone", { page: location.pathname });
         fireAdsConversion();
       }

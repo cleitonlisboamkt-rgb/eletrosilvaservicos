@@ -1,5 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 40" role="img" aria-label="ELETROSILVA">
-  <rect width="40" height="40" rx="8" fill="#0B3D91"/>
-  <path fill="#FFB300" d="M22.6 8 10 21.2h7.4L16.4 32 29.2 18.6h-7.5L22.6 8z"/>
-  <text x="52" y="26" fill="#1A1D21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.6">ELETROSILVA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" role="img" aria-label="ELETROSILVA">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2B7DE9"/>
+      <stop offset="100%" stop-color="#0A3A7A"/>
+    </linearGradient>
+    <linearGradient id="o" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F9B42A"/>
+      <stop offset="100%" stop-color="#E85D04"/>
+    </linearGradient>
+  </defs>
+  <path fill="none" stroke="url(#b)" stroke-width="3" d="M40 8 20 16v18c0 13 7 22 20 26"/>
+  <path fill="none" stroke="url(#o)" stroke-width="3" d="M40 8v52c13-4 20-13 20-26V16L40 8z"/>
+  <path fill="url(#b)" d="M42 18 28 34h8l-2 14 16-16h-8l0-14z"/>
+  <path fill="url(#o)" d="M42 18v14h4L34 48l1-4h5l10-10h-6L42 18z"/>
+  <text x="78" y="38" fill="#0A2540" font-family="Montserrat, Arial, sans-serif" font-size="26" font-weight="800" letter-spacing="-0.8">ELETROSILVA</text>
+  <text x="78" y="58" fill="#4A5D73" font-family="Source Sans 3, Arial, sans-serif" font-size="9" font-weight="600" letter-spacing="1.6">SERVIÇOS ELÉTRICOS &amp; MANUTENÇÃO</text>
 </svg>

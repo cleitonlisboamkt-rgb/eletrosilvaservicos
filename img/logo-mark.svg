@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ELETROSILVA">
+  <defs>
+    <linearGradient id="lb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2B7DE9"/>
+      <stop offset="100%" stop-color="#0A3A7A"/>
+    </linearGradient>
+    <linearGradient id="lo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F9B42A"/>
+      <stop offset="100%" stop-color="#E85D04"/>
+    </linearGradient>
+  </defs>
+  <circle cx="8" cy="20" r="2.2" fill="#1E6FD9"/>
+  <circle cx="8" cy="32" r="2.2" fill="#1E6FD9"/>
+  <circle cx="8" cy="44" r="2.2" fill="#1E6FD9"/>
+  <path stroke="#1E6FD9" stroke-width="2" d="M10 20h10M10 32h10M10 44h10"/>
+  <circle cx="56" cy="20" r="2.2" fill="#E87722"/>
+  <circle cx="56" cy="32" r="2.2" fill="#E87722"/>
+  <circle cx="56" cy="44" r="2.2" fill="#E87722"/>
+  <path stroke="#E87722" stroke-width="2" d="M44 20h10M44 32h10M44 44h10"/>
+  <path fill="none" stroke="url(#lb)" stroke-width="3.2" d="M32 8 20 13.2v14.4c0 10.2 5.4 17.2 12 20.4"/>
+  <path fill="none" stroke="url(#lo)" stroke-width="3.2" d="M32 8v39.6c6.6-3.2 12-10.2 12-20.4V13.2L32 8z"/>
+  <path fill="url(#lb)" d="M33.2 16 22.8 29.4h6.4L27.4 44 41.2 29.4h-6.8L33.2 16z"/>
+  <path fill="url(#lo)" d="M33.2 16v13.4h3.6L27.4 44l1.2-4.2h4.2L41.2 29.4h-5.2L33.2 16z"/>
+</svg>

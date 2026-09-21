@@ -1,0 +1,4 @@
+# Negar listagem e acesso direto a internals desta pasta
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>

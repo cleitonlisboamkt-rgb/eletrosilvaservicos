@@ -8,7 +8,21 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://eletrosilvaservicos.com";
-const ASSET_V = "20260916";
+const ASSET_V = "20260921d";
+const PHONE_DISPLAY = "(21) 96655-4750";
+const PHONE_TEL = "5521966554750";
+const LOGO_ALT = "ELETROSILVA - Serviços elétricos e manutenção";
+
+function logoMark(variant = "header") {
+  const extras = variant === "footer" ? " logo--footer" : "";
+  return `<span class="logo-lockup${extras}">
+      <img class="logo-icon" src="img/logo-icon.png?v=${ASSET_V}" width="56" height="50" alt="" decoding="async" aria-hidden="true">
+      <span class="logo-text">
+        <span class="logo-name">ELETRO<span class="logo-name-tail">SILVA</span></span>
+        <span class="logo-sub">Serviços elétricos &amp; manutenção</span>
+      </span>
+    </span>`;
+}
 
 const SERVICES = [
   {
@@ -280,10 +294,6 @@ function iconSvg(name) {
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name] || icons.panel}</svg>`;
 }
 
-function logoMark() {
-  return `<svg viewBox="0 0 32 32" width="36" height="36" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#0B3D91"/><path fill="#FFB300" d="M18.2 6 8 17.2h6.1L13.2 26 24 14.6h-6.2L18.2 6z"/></svg>`;
-}
-
 function head({ title, description, path, extra = "", canonical, robots = "index,follow" }) {
   const url = `${SITE}${path}`;
   const canon = canonical || url;
@@ -296,7 +306,7 @@ function head({ title, description, path, extra = "", canonical, robots = "index
   <meta name="description" content="${description}">
   <link rel="canonical" href="${canon}">
   <meta name="robots" content="${robots}">
-  <meta name="theme-color" content="#0B3D91">
+  <meta name="theme-color" content="#0A2540">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
@@ -304,31 +314,39 @@ function head({ title, description, path, extra = "", canonical, robots = "index
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
   <meta property="og:url" content="${url}">
-  <meta property="og:image" content="${SITE}/img/og-cover.svg">
+  <meta property="og:image" content="${SITE}/img/logo.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--blue:#0B3D91;--ink:#1A1D21;--cta:#FFB300;--header-h:76px}
+    :root{--blue:#0F4C9A;--ink:#0A2540;--cta:#E87722;--header-h:84px}
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff}
-    .header{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.96);border-bottom:1px solid #D8DEE6}
-    .header-inner{display:flex;align-items:center;gap:16px;min-height:76px}
+    body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);background:#f7f9fc}
+    .header{position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid #d5dde8}
+    .header-inner{display:flex;align-items:center;gap:16px;min-height:84px}
     .wrap{width:min(calc(100% - 32px),1180px);margin-inline:auto}
-    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+    .logo{display:flex;align-items:center;text-decoration:none;color:#0A2540}
+    .logo-lockup{display:flex;align-items:center;gap:12px}
+    .logo-icon{height:52px;width:auto;display:block}
+    .logo-name{display:block;font-family:Montserrat,sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.03em;line-height:1;color:#0A2540}
+    .logo-name-tail{color:#0A2540}
+    .logo-sub{display:block;margin-top:4px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4A5D73}
     .nav,.phone-link{display:none}
-    .menu-btn{width:48px;height:48px;border:1px solid #D8DEE6;background:#fff;border-radius:8px}
-    .hero{position:relative;background:#12161c;color:#fff;min-height:78vh;display:flex;align-items:center}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,26,.92),rgba(10,16,26,.45))}
+    .menu-btn{width:48px;height:48px;border:1px solid #d5dde8;background:#fff;border-radius:8px}
+    .hero{position:relative;background:#0A2540;color:#fff;min-height:78vh;display:flex;align-items:center}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,37,64,.94),rgba(15,76,154,.55) 55%,rgba(232,119,34,.28))}
     .hero .wrap{position:relative;z-index:1;padding:48px 0 56px}
-    h1{font-size:clamp(1.75rem,4vw,2.75rem);line-height:1.15;margin:0 0 12px}
+    h1{font-family:Montserrat,sans-serif;font-size:clamp(1.75rem,4vw,2.75rem);line-height:1.15;margin:0 0 12px}
     .lead{font-size:1.05rem}
     .cta-row{display:flex;flex-wrap:wrap;gap:12px}
     .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid transparent}
-    .btn--primary{background:#FFB300;color:#1A1D21}
+    .btn--primary{background:#E87722;color:#fff}
     .btn--ghost{color:#fff;border-color:rgba(255,255,255,.55)}
-    .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FFB300}
+    .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#F9A825}
   </style>
   <link rel="stylesheet" href="css/site.css?v=${ASSET_V}">
   ${extra}
@@ -353,13 +371,10 @@ function header(active) {
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 <header class="header">
   <div class="wrap header-inner">
-    <a class="logo" href="index.html">
-      ${logoMark()}
-      <span><span class="logo-name">ELETROSILVA</span><span class="logo-sub">Serviços elétricos · RJ</span></span>
-    </a>
+    <a class="logo" href="index.html" aria-label="${LOGO_ALT}">${logoMark()}</a>
     <nav class="nav" aria-label="Principal">${links}</nav>
     <div class="header-actions">
-      <a class="phone-link" data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a>
+      <a class="phone-link" data-href="phone" data-fill="phoneDisplay" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a>
       <a class="btn btn--primary btn--sm" data-wa="Olá! Vim pelo site e quero solicitar um orçamento." href="#contato" aria-label="Orçamento no WhatsApp">Orçamento no WhatsApp</a>
       <button class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false">${iconSvg("panel")}</button>
     </div>
@@ -384,13 +399,10 @@ function headerFixed(active) {
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 <header class="header">
   <div class="wrap header-inner">
-    <a class="logo" href="index.html">
-      ${logoMark()}
-      <span><span class="logo-name">ELETROSILVA</span><span class="logo-sub">Serviços elétricos · RJ</span></span>
-    </a>
+    <a class="logo" href="index.html" aria-label="${LOGO_ALT}">${logoMark()}</a>
     <nav class="nav" aria-label="Principal">${linksDesktop}</nav>
     <div class="header-actions">
-      <a class="phone-link" data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a>
+      <a class="phone-link" data-href="phone" data-fill="phoneDisplay" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a>
       <a class="btn btn--primary btn--sm" data-wa="Olá! Vim pelo site e quero solicitar um orçamento." href="#contato">Orçamento no WhatsApp</a>
       <button class="menu-btn" type="button" aria-label="Abrir menu" aria-controls="menu-mobile" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -409,14 +421,14 @@ function footer() {
 <footer class="footer">
   <div class="wrap footer-grid">
     <div>
-      <div class="logo" style="margin-bottom:12px">${logoMark()}<span class="logo-name">ELETROSILVA</span></div>
+      <div class="logo logo--footer" style="margin-bottom:12px">${logoMark("footer")}</div>
       <p>Serviços elétricos e automação no município do Rio de Janeiro: residencial, predial e industrial.</p>
       <p>Área de cobertura: apenas a capital do Rio de Janeiro (todas as zonas e Ilha do Governador).</p>
     </div>
     <div>
       <h3>Contato</h3>
       <ul>
-        <li>Tel.: <a data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a></li>
+        <li>Tel.: <a data-href="phone" data-fill="phoneDisplay" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a></li>
       </ul>
     </div>
     <div>
@@ -525,7 +537,7 @@ function ldLocal() {
     "@type": ["Electrician", "LocalBusiness"],
     name: "ELETROSILVA",
     url: SITE,
-    telephone: "+5521992779858",
+    telephone: `+${PHONE_TEL}`,
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
@@ -767,7 +779,7 @@ ${headerFixed("home")}
         <p class="lead">Sem formulário. Fale no WhatsApp com o serviço e o bairro. Retorno em até 24h úteis. Só município do Rio.</p>
         <div class="cta-row">
           <a class="btn btn--primary" data-wa="Olá! Vim pelo site e quero um orçamento de serviço elétrico no Rio de Janeiro." href="#contato">Falar no WhatsApp</a>
-          <a class="btn btn--outline" data-href="phone" href="tel:+5521992779858">(21) 99277-9858</a>
+          <a class="btn btn--outline" data-href="phone" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a>
         </div>
       </div>
     </div>
@@ -1265,7 +1277,7 @@ ${headerFixed("servicos")}
           <h3>Orçamento deste serviço</h3>
           <p class="muted">Retorno em até 24h úteis. Só município do Rio.</p>
           <p><a class="btn btn--primary" data-wa="${s.wa}" href="#contato">WhatsApp</a></p>
-          <p class="muted"><a data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a></p>
+          <p class="muted"><a data-href="phone" data-fill="phoneDisplay" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a></p>
           <h3 style="margin-top:24px">Outros serviços</h3>
           <ul>${related}</ul>
         </div>
@@ -1316,9 +1328,9 @@ ${headerFixed("contato")}
     <h1>Política de privacidade</h1>
     <p>Esta política descreve como a ELETROSILVA trata dados pessoais coletados neste site, no município do Rio de Janeiro. Não publicamos CNPJ neste site.</p>
     <h2>Controlador</h2>
-    <p>ELETROSILVA. serviços elétricos no Rio de Janeiro/RJ. Contato: WhatsApp/telefone <a data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a>.</p>
+    <p>ELETROSILVA. serviços elétricos no Rio de Janeiro/RJ. Contato: WhatsApp/telefone <a data-href="phone" data-fill="phoneDisplay" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a>.</p>
     <h2>Dados que coletamos</h2>
-    <p>Neste site não há formulário. O orçamento é pedido pelo WhatsApp ou telefone <a data-href="phone" data-fill="phoneDisplay" href="tel:+5521992779858">(21) 99277-9858</a>. Nesse canal podemos receber nome, número, tipo de serviço, bairro e a descrição do problema. Também podemos receber parâmetros de campanha (UTM e gclid) se você chegou por anúncio.</p>
+    <p>Neste site não há formulário. O orçamento é pedido pelo WhatsApp ou telefone <a data-href="phone" data-fill="phoneDisplay" href="tel:+${PHONE_TEL}">${PHONE_DISPLAY}</a>. Nesse canal podemos receber nome, número, tipo de serviço, bairro e a descrição do problema. Também podemos receber parâmetros de campanha (UTM e gclid) se você chegou por anúncio.</p>
     <h2>Finalidade</h2>
     <p>Responder o pedido de orçamento, tirar dúvidas técnicas, agendar visita e cumprir obrigação legal de documento fiscal quando houver contratação. Não vendemos lista e não usamos seus dados para marketing de terceiro.</p>
     <h2>Base legal</h2>

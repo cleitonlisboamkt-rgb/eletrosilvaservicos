@@ -4,9 +4,9 @@
  */
 window.ELETROSILVA = {
   company: "ELETROSILVA",
-  phoneDisplay: "(21) 99277-9858",
-  phoneTel: "5521992779858",
-  whatsapp: "5521992779858",
+  phoneDisplay: "(21) 96655-4750",
+  phoneTel: "5521966554750",
+  whatsapp: "5521966554750",
   email: "",
   years: "[PREENCHER: anos de mercado]",
   instagram: "",

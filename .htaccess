@@ -1,20 +1,60 @@
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
 AddDefaultCharset UTF-8
-Options -Indexes
+Options -Indexes -MultiViews
+ServerSignature Off
 
-<IfModule mod_headers.c>
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+# --- Anti-IDOR / superfície privada: bloquear paths e extensões sensíveis ---
+<IfModule mod_authz_core.c>
+  <FilesMatch "(?i)^(\.env|\.git|\.gitignore|\.htpasswd|composer\.(json|lock)|package(-lock)?\.json|.*\.(sql|bak|old|swp|log|ini|config)|eletrosilva.*\.zip)$">
+    Require all denied
+  </FilesMatch>
 </IfModule>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # HTTPS + www → apex
   RewriteCond %{HTTPS} !=on
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   RewriteCond %{HTTP_HOST} ^www\.eletrosilvaservicos\.com$ [NC]
   RewriteRule ^(.*)$ https://eletrosilvaservicos.com/$1 [L,R=301]
+
+  # Bloqueia pastas/arquivos internos (scripts de build/upload, git, deps)
+  RewriteRule ^(scripts|deploy|node_modules|\.git|_chunks)(/|$) - [F,L,NC]
+  RewriteRule \.(?:zip|sql|bak|old|env|log|cjs|mjs|map)$ - [F,L,NC]
+
+  # Anti path-traversal / IDOR por query string malformada
+  RewriteCond %{QUERY_STRING} (?:\.\./|\.\.\\|%2e%2e) [NC,OR]
+  RewriteCond %{QUERY_STRING} (?:union\s+select|benchmark\s*\(|sleep\s*\() [NC]
+  RewriteRule ^ - [F,L]
+
+  # Rate limit leve por IP em endpoints que aceitam escrita (quando existirem)
+  RewriteCond %{REQUEST_METHOD} ^(POST|PUT|PATCH|DELETE)$ [NC]
+  RewriteRule ^api/ - [E=RATELIMIT:1]
+</IfModule>
+
+# --- Rate limit (Apache 2.4+ / Hostinger quando mod_ratelimit existir) ---
+<IfModule mod_ratelimit.c>
+  <Location "/api/">
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 30
+  </Location>
+</IfModule>
+
+# Limita tamanho de body (mitiga flood de POST)
+LimitRequestBody 65536
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always unset X-Powered-By
+  # CSP permissiva o bastante para GTM/Fonts/WhatsApp, sem object/embed
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self' https:; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com; frame-src https://www.google.com https://maps.google.com https://www.googletagmanager.com"
 </IfModule>
 
 <IfModule mod_expires.c>
