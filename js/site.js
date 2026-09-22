@@ -49,7 +49,8 @@
   }
 
   function loadTracking() {
-    if (isReal(C.gtmId)) {
+    // GTM oficial já vai no <head>/<body>; evita carregar gtm.js duas vezes
+    if (isReal(C.gtmId) && !document.querySelector('script[src*="googletagmanager.com/gtm.js"]')) {
       var s = document.createElement("script");
       s.async = true;
       s.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(C.gtmId);

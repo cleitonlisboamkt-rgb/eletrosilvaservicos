@@ -12,7 +12,7 @@ window.ELETROSILVA = {
   instagram: "",
   siteUrl: "https://eletrosilvaservicos.com",
   formEndpoint: "FORM_ENDPOINT",
-  gtmId: "GTM-XXXXXXX",
+  gtmId: "GTM-MVVCDT7N",
   ga4Id: "G-XXXXXXXXXX",
   adsId: "AW-XXXXXXXXXX",
   adsLabel: "[PREENCHER: label da conversão]",

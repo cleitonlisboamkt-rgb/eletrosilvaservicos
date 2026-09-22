@@ -8,10 +8,28 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://eletrosilvaservicos.com";
-const ASSET_V = "20260921d";
+const ASSET_V = "20260922";
 const PHONE_DISPLAY = "(21) 96655-4750";
 const PHONE_TEL = "5521966554750";
 const LOGO_ALT = "ELETROSILVA - Serviços elétricos e manutenção";
+const GTM_ID = "GTM-MVVCDT7N";
+
+function gtmHead() {
+  return `<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');</script>
+<!-- End Google Tag Manager -->`;
+}
+
+function gtmBody() {
+  return `<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->`;
+}
 
 function logoMark(variant = "header") {
   const extras = variant === "footer" ? " logo--footer" : "";
@@ -300,6 +318,7 @@ function head({ title, description, path, extra = "", canonical, robots = "index
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+${gtmHead()}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title}</title>
@@ -609,6 +628,7 @@ function homePage() {
     extra: ld.map(jsonLd).join("\n"),
   })}
 <body data-page="home">
+${gtmBody()}
 ${headerFixed("home")}
 <main id="conteudo">
   <section class="hero" id="inicio">
@@ -1243,6 +1263,7 @@ function wordedPage(s) {
     extra: ld.map(jsonLd).join("\n"),
   })}
 <body data-page="servico" data-service="${s.track}">
+${gtmBody()}
 ${headerFixed("servicos")}
 <main id="conteudo">
   <section class="page-hero">
@@ -1298,6 +1319,7 @@ function obrigado() {
     robots: "noindex",
   })}
 <body data-page="obrigado">
+${gtmBody()}
 ${headerFixed("contato")}
 <main id="conteudo" class="thanks">
   <div class="wrap">
@@ -1322,6 +1344,7 @@ function privacidade() {
     path: "/privacidade.html",
   })}
 <body>
+${gtmBody()}
 ${headerFixed("contato")}
 <main id="conteudo" class="section">
   <div class="wrap prose">
@@ -1358,6 +1381,7 @@ function notFound() {
     robots: "noindex",
   })}
 <body>
+${gtmBody()}
 ${headerFixed("home")}
 <main id="conteudo" class="thanks">
   <div class="wrap">
